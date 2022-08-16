@@ -41,25 +41,6 @@ function App() {
   //   console.log(res);
   // })();
 
-
-  const messageRef = useRef();
-  const ref = collection(firestore, 'messages');
-
-  const handleSave = async(e) => {
-    e.preventDefault();
-    console.log(messageRef.current.value);
-
-    let data = {
-      message: messageRef.current.value
-    }
-
-    try {
-      await addDoc(ref, data);
-    } catch (e) {
-      console.log('Unable to write data!', e);
-    }
-  }
-
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
@@ -72,25 +53,6 @@ function App() {
           </Routes>
       </BrowserRouter>
     </ChakraProvider>
-    // <div className="App">
-    //   <div className='test-div' data-aos="fade-in">
-    //     <h1>Hello this is filler</h1>
-    //   </div>
-    //   <FontAwesomeIcon icon={faCoffee} size='lg'/>
-    //   <div className='test-div-form'>
-    //     <form onSubmit={handleSave} className='test-form'>
-    //       <label htmlFor="">Enter Message</label>
-    //       <input type="text" ref={messageRef}/>
-    //       <button type="submit">Submit</button>
-    //     </form>
-    //   </div>
-    //   <div className='test-div' data-aos="fade-right">
-    //     <h1>Hello this is filler also</h1>
-    //   </div>
-    //   <footer>
-    //     <p>this my footer</p>
-    //   </footer>
-    // </div>
   );
 }
 

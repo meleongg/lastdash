@@ -6,7 +6,8 @@ import {
     Box, 
     Spacer,
     Link, 
-    Text
+    Text,
+    Image
  } from '@chakra-ui/react';
 
 const Nav = () => {
