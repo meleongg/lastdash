@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
 import { 
     VStack,
     Grid,
@@ -18,7 +19,7 @@ import {
     Td,
     TableCaption,
     TableContainer,
-    Box
+    Box,
 } from '@chakra-ui/react';
 
 import { uniqueId } from 'lodash';
@@ -31,8 +32,7 @@ import Footer from '../components/Footer';
 const StopsNearMePage = () => {
     const [address, setAddress] = useState('');
     const [radius, setRadius] = useState(500);
-    const [isFromHomePage, setIsFromHomePage] = useState(false);
-    const [submittedAddress, setSubmittedAddress] = useState(false);
+    const [isSubmittedAddress, setIsSubmittedAddress] = useState(false);
     const [stops, setStops] = useState([]);
 
     // TODO: remove is submitted from this page, meaning all addresses have to be submitted from the home page, since this allows for page persistence
@@ -41,17 +41,6 @@ const StopsNearMePage = () => {
         const geoCode = await apiServices.getGeoCode(address);
         const apiStops = await apiServices.getStops(radius, geoCode[0], geoCode[1]);
         setStops(apiStops);
-    }
-
-    const checkIsFromHomePage = async () => {
-        const addressInfo = await firebaseFunctions.getAddressFromHomePage();
-        setIsFromHomePage(!(addressInfo.value === ''));
-        
-        if (!(addressInfo.value === '')) {
-            handleApiCalls(addressInfo.value);
-            setAddress(addressInfo.value);
-            setRadius(addressInfo.radius);
-        }
     }
     
     const handleAddressChange = (e) => {
@@ -63,10 +52,11 @@ const StopsNearMePage = () => {
     }
 
     const handleAddressSubmit = async (e) => {
-        setAddress(e.target.value);
+        setAddress(e.target.parentElement.parentElement.children[1].value);
+        setRadius(e.target.parentElement.parentElement.children[4].value);
         await handleApiCalls(address);
-        await firebaseFunctions.setAddressFromHomePage('', 0);
-        setSubmittedAddress(true);
+        await firebaseFunctions.setAddress(address, radius);
+        setIsSubmittedAddress(true);
     }
 
     const renderRoutes = (stopNo, routes) => {
@@ -100,11 +90,23 @@ const StopsNearMePage = () => {
     }
 
     useEffect(() => {
-        checkIsFromHomePage();
-    }, [])
+        // GET Request to Firebase to check if address has already been entered
+        (async() => {
+            const addressInfo = await firebaseFunctions.getAddress();
+            const address = addressInfo.value; 
+            setIsSubmittedAddress(address !== '');
+            
+            if (isSubmittedAddress) {
+                console.log('address found');
+                await handleApiCalls(addressInfo.value);
+                setAddress(addressInfo.value);
+                setRadius(addressInfo.radius);
+            }
+        })();
+    }, []);
 
     useEffect(() => {
-        if (isFromHomePage || submittedAddress) {
+        if (isSubmittedAddress) {
             const caption = document.getElementsByClassName('stops-table-caption')[0];
 
             const chooseAddress = () => {
@@ -117,31 +119,29 @@ const StopsNearMePage = () => {
                 caption.innerHTML = `Stop is ${radius} meters away from ${chooseAddress()}`;
             }
         }
-    }, [stops, submittedAddress, isFromHomePage, radius, address]);
+    }, [stops, isSubmittedAddress, radius, address]);
 
     return (
         <VStack pb='50px' minHeight='100vh' pos='relative'>
             <Nav />
-            { (!isFromHomePage && !submittedAddress)
-                ?
-                    (<Box w='50%' pt='30px' pb='30px'>
-                        <FormControl>
-                            <VStack spacing='10px' align='left'>
-                                <FormLabel>Enter your full address</FormLabel>
-                                <Input type='address' color='#333' value={address} onChange={handleAddressChange}/>
-                                <FormHelperText color='#333'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
-                                <FormLabel>Enter a radius</FormLabel>
-                                <Input type='number' color='#333' value={radius} onChange={handleRadiusChange}></Input>
-                                <Flex justifyContent='center' alignItems='center' width='100%'>
-                                    <Button onClick={handleAddressSubmit} className='go-button' size='sm' bg='#005DAA' width='50px' color='#FFF'>
-                                        Go
-                                    </Button>
-                                </Flex>
-                            </VStack>
-                        </FormControl>
-                    </Box>)
-                : 
-                    (<Grid>
+                <Box w='50%' pt='30px' pb='30px'>
+                    <FormControl>
+                        <VStack spacing='10px' align='left'>
+                            <FormLabel>Enter your full address</FormLabel>
+                            <Input type='address' color='#333' value={address} onChange={handleAddressChange}/>
+                            <FormHelperText color='#333'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
+                            <FormLabel>Enter a radius</FormLabel>
+                            <Input type='number' color='#333' value={radius} onChange={handleRadiusChange}></Input>
+                            <Flex justifyContent='center' alignItems='center' width='100%'>
+                                <Button onClick={handleAddressSubmit} className='go-button' size='sm' bg='#005DAA' width='50px' color='#FFF'>
+                                    Go
+                                </Button>
+                            </Flex>
+                        </VStack>
+                    </FormControl>
+                </Box>
+                { isSubmittedAddress &&
+                    <Grid>
                         <Heading fontSize='1.5rem' align='center' pt='20px' pb='20px'>Nearby Stops</Heading>
                         <TableContainer>
                             <Table variant='striped' colorScheme='gray'>
@@ -160,8 +160,8 @@ const StopsNearMePage = () => {
                                 </Tbody>
                             </Table>
                         </TableContainer>
-                    </Grid>)
-            }
+                    </Grid>
+                }
             <Footer />
         </VStack>
     );

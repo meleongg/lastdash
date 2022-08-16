@@ -18,6 +18,10 @@ import {
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import apiServices from '../persistence/apiServices';
+import firebaseFunctions from '../persistence/services';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 const RoutePage = () => {
     const [times, setTimes] = useState({});
@@ -43,15 +47,19 @@ const RoutePage = () => {
                     buses.map((bus) => {
                         return (
                             <Tr key={ uniqueId() }>
-                                <Th>{bus.Destination}</Th>
-                                <Th>{bus.ExpectedLeaveTime}</Th>
-                                <Th>{bus.ExpectedCountdown}</Th>
+                                <Td>{bus.Destination}</Td>
+                                <Td>{bus.ExpectedLeaveTime}</Td>
+                                <Td>{bus.ExpectedCountdown}</Td>
                             </Tr>
                         )
                     })
                 );
             })
         );
+    }
+
+    const handleAddFaveStopClick = async (e) => {
+        await firebaseFunctions.addFaveStop(routeNum, stopNum);
     }
     
     useEffect(() => {
@@ -80,13 +88,14 @@ const RoutePage = () => {
         <VStack pb='50px' minHeight='100vh' pos='relative'>
             <Nav />
                 <Grid>
-                    <Heading fontSize='1.5rem' align='center' pt='20px' pb='20px'>Times for Route {routeNum} at Stop {stopNum}</Heading>
+                    <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>Times for Route {routeNum} at Stop {stopNum}</Heading>
+                    <Heading as='h2' fontSize='1rem' align='center' pt='20px' pb='20px'>Add to favourite stops <FontAwesomeIcon id='add-to-fave-stop-icon' className='fave-stop-icons' icon={faCirclePlus} size='lg' onClick={handleAddFaveStopClick}/></Heading>
                     <TableContainer>
                         <Table variant='striped' colorScheme='gray'>
                             <Thead>
                                 <Tr>
                                     <Th>Destination</Th>
-                                    <Th>Expected Leave Time</Th>
+                                    <Th>Expected Arrival Time</Th>
                                     <Th>Expected Departure Time (min)</Th>
                                 </Tr>
                             </Thead>

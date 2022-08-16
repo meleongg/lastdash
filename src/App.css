@@ -5,3 +5,11 @@
 .go-button:hover {
     background-color: #004279 !important;
 }
+
+.fave-stop-icons {
+    cursor: pointer;
+}
+
+#add-to-fave-stop-icon {
+    padding-left: 8px;
+}

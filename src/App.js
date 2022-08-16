@@ -11,10 +11,12 @@ import './App.css'
 import HomePage from './pages/HomePage';
 import StopsNearMePage from './pages/StopsNearMePage';
 import RoutePage from './pages/RoutePage';
+import FavouriteStopsPage from './pages/FavouriteStopsPage';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import apiServices from './persistence/apiServices';
+import firebaseFunctions from './persistence/services';
 
 function App() {
   useEffect(() => {
@@ -33,6 +35,12 @@ function App() {
   }
 
   // getTransitData();
+
+  // (async () => {
+  //   let res = await firebaseFunctions.getFaveStops();
+  //   console.log(res);
+  // })();
+
 
   const messageRef = useRef();
   const ref = collection(firestore, 'messages');
@@ -58,7 +66,7 @@ function App() {
           <Routes>
               <Route path='/' element={<HomePage />}/>
               <Route path='/stops-near-me' element={<StopsNearMePage />}/>
-              <Route path='/favourite-stops' element={<HomePage />}/>
+              <Route path='/favourite-stops' element={<FavouriteStopsPage />}/>
               <Route path='/recent-queries' element={<HomePage />}/>
               <Route path='/routes/:id' element={<RoutePage />}/>
           </Routes>
