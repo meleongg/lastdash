@@ -34,18 +34,29 @@ const apiServices = (() => {
     
     const getRoute = async (route) => {
         try {
-        const busResponse = await fetch(`https://api.translink.ca/rttiapi/v1/routes/${route}?apikey=${process.env.REACT_APP_TRANSIT_API_KEY}`, fetchTransitParams);
-        const busResponseData = await busResponse.json();
-        console.log(busResponseData);
+            const busResponse = await fetch(`https://api.translink.ca/rttiapi/v1/routes/${route}?apikey=${process.env.REACT_APP_TRANSIT_API_KEY}`, fetchTransitParams);
+            const busResponseData = await busResponse.json();
+            console.log(busResponseData);
         } catch (e) {
-        console.log('Error getting data', e);
+            console.log('Error getting data', e);
+        }
+    }
+
+    const getStopTimes = async (routeNum, stopNum) => {
+        try {
+            const res = await fetch(`https://api.translink.ca/rttiapi/v1/stops/${stopNum}/estimates?apikey=${process.env.REACT_APP_TRANSIT_API_KEY}&routeNo=${routeNum}`, fetchTransitParams);
+            const json = res.json();
+            return json; 
+        } catch (e) {
+            console.log('Error getting data', e);
         }
     }
 
     return {
         getGeoCode,
         getStops,
-        getRoute
+        getRoute,
+        getStopTimes
     }
 })();
 

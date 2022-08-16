@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
     VStack,
     Grid,
@@ -25,6 +26,7 @@ import firebaseFunctions from '../persistence/services';
 import apiServices from '../persistence/apiServices';
 
 import Nav from '../components/Nav';
+import Footer from '../components/Footer';
 
 const StopsNearMePage = () => {
     const [address, setAddress] = useState('');
@@ -32,6 +34,8 @@ const StopsNearMePage = () => {
     const [isFromHomePage, setIsFromHomePage] = useState(false);
     const [submittedAddress, setSubmittedAddress] = useState(false);
     const [stops, setStops] = useState([]);
+
+    // TODO: remove is submitted from this page, meaning all addresses have to be submitted from the home page, since this allows for page persistence
 
     const handleApiCalls = async (address) => {
         const geoCode = await apiServices.getGeoCode(address);
@@ -42,10 +46,10 @@ const StopsNearMePage = () => {
     const checkIsFromHomePage = async () => {
         const addressInfo = await firebaseFunctions.getAddressFromHomePage();
         setIsFromHomePage(!(addressInfo.value === ''));
-        setAddress(addressInfo.value);
-
+        
         if (!(addressInfo.value === '')) {
             handleApiCalls(addressInfo.value);
+            setAddress(addressInfo.value);
             setRadius(addressInfo.radius);
         }
     }
@@ -65,6 +69,16 @@ const StopsNearMePage = () => {
         setSubmittedAddress(true);
     }
 
+    const renderRoutes = (stopNo, routes) => {
+        return (
+            routes.map((route) => {
+                return (
+                    <Link key={uniqueId()} to={'/routes/' + route + '-' + stopNo }>{route} </Link>
+                );
+            })
+        );
+    }
+
     const renderStops = () => {
         const checkWheelchairAccess = (bool) => {
             return (bool === 1) ? 'True' : 'False';
@@ -76,7 +90,7 @@ const StopsNearMePage = () => {
                     <Tr key={ uniqueId() }>
                         <Td>{stop.StopNo}</Td>
                         <Td>{stop.Name}</Td>
-                        <Td>{stop.Routes}</Td>
+                        <Td>{renderRoutes(stop.StopNo, stop.Routes.split(', '))}</Td>
                         <Td>{stop.Distance}</Td>
                         <Td>{checkWheelchairAccess(stop.WheelchairAccess)}</Td>
                     </Tr>
@@ -93,16 +107,20 @@ const StopsNearMePage = () => {
         if (isFromHomePage || submittedAddress) {
             const caption = document.getElementsByClassName('stops-table-caption')[0];
 
+            const chooseAddress = () => {
+                return (address === '') ? 'your location' : address; 
+            }
+
             if (stops.length > 1) {
-                caption.innerHTML = `Stops are ${radius} meters away from ${address}`;
+                caption.innerHTML = `Stops are ${radius} meters away from ${chooseAddress()}`;
             } else {
-                caption.innerHTML = `Stop is ${radius} meters away from ${address}`;
+                caption.innerHTML = `Stop is ${radius} meters away from ${chooseAddress()}`;
             }
         }
     }, [stops, submittedAddress, isFromHomePage, radius, address]);
 
     return (
-        <VStack>
+        <VStack pb='50px' minHeight='100vh' pos='relative'>
             <Nav />
             { (!isFromHomePage && !submittedAddress)
                 ?
@@ -144,6 +162,7 @@ const StopsNearMePage = () => {
                         </TableContainer>
                     </Grid>)
             }
+            <Footer />
         </VStack>
     );
 }

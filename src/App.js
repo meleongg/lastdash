@@ -10,9 +10,11 @@ import './App.css'
 
 import HomePage from './pages/HomePage';
 import StopsNearMePage from './pages/StopsNearMePage';
+import RoutePage from './pages/RoutePage';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import apiServices from './persistence/apiServices';
 
 function App() {
   useEffect(() => {
@@ -23,6 +25,14 @@ function App() {
     });
     AOS.refresh();
   });
+
+  const getTransitData = async () => {
+    let res = await apiServices.getStops(500, 49.187706, -122.850060);
+    let routes = res[21].Routes.split(', ')
+    console.log(routes);
+  }
+
+  // getTransitData();
 
   const messageRef = useRef();
   const ref = collection(firestore, 'messages');
@@ -50,6 +60,7 @@ function App() {
               <Route path='/stops-near-me' element={<StopsNearMePage />}/>
               <Route path='/favourite-stops' element={<HomePage />}/>
               <Route path='/recent-queries' element={<HomePage />}/>
+              <Route path='/routes/:id' element={<RoutePage />}/>
           </Routes>
       </BrowserRouter>
     </ChakraProvider>

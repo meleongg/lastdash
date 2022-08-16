@@ -47,7 +47,7 @@ const HomePage = () => {
     }
 
     return (
-        <VStack spacing='0'>
+        <VStack spacing='0' pb='50px' minHeight='100vh' pos='relative'>
             <Nav />
             <Box w='100%' backgroundColor='#333' pos='relative'>
                 <Image
