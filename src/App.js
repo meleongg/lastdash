@@ -12,6 +12,7 @@ import HomePage from './pages/HomePage';
 import StopsNearMePage from './pages/StopsNearMePage';
 import RoutePage from './pages/RoutePage';
 import FavouriteStopsPage from './pages/FavouriteStopsPage';
+import RecentQueriesPage from './pages/RecentQueriesPage';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -48,7 +49,7 @@ function App() {
               <Route path='/' element={<HomePage />}/>
               <Route path='/stops-near-me' element={<StopsNearMePage />}/>
               <Route path='/favourite-stops' element={<FavouriteStopsPage />}/>
-              <Route path='/recent-queries' element={<HomePage />}/>
+              <Route path='/recent-queries' element={<RecentQueriesPage />}/>
               <Route path='/routes/:id' element={<RoutePage />}/>
           </Routes>
       </BrowserRouter>

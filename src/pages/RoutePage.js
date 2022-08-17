@@ -25,6 +25,7 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 const RoutePage = () => {
     const [times, setTimes] = useState({});
+    const [isStopExistInFaves, setIsStopExistInFaves] = useState(false);
 
     // id in the form of routeNum-stopNum
     let { id } = useParams();
@@ -65,6 +66,7 @@ const RoutePage = () => {
     useEffect(() => {
         // GET request for Transit API for the next bus time data
         (async () => {
+            await firebaseFunctions.addRecentRoute(routeNum, stopNum);
             let data = await apiServices.getStopTimes(routeNum, stopNum);
             let tempTimes = data[0].Schedules;
             let seenDestinations = [];
@@ -82,6 +84,12 @@ const RoutePage = () => {
             setTimes(splitTimes);
         })();
 
+        // GET request for Transit API for the user's favourite stops
+        (async () => {
+            let res = await firebaseFunctions.checkStopExistsInFaveStops(routeNum, stopNum);
+            setIsStopExistInFaves(res);
+        })();
+
     }, []);
 
     return (
@@ -89,7 +97,9 @@ const RoutePage = () => {
             <Nav />
                 <Grid>
                     <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>Times for Route {routeNum} at Stop {stopNum}</Heading>
-                    <Heading as='h2' fontSize='1rem' align='center' pt='20px' pb='20px'>Add to favourite stops <FontAwesomeIcon id='add-to-fave-stop-icon' className='fave-stop-icons' icon={faCirclePlus} size='lg' onClick={handleAddFaveStopClick}/></Heading>
+                    { !isStopExistInFaves &&
+                        <Heading as='h2' fontSize='1rem' align='center' pt='20px' pb='20px'>Add to favourite stops <FontAwesomeIcon id='add-to-fave-stop-icon' className='fave-stop-icons' icon={faCirclePlus} size='lg' onClick={handleAddFaveStopClick}/></Heading>
+                    }
                     <TableContainer>
                         <Table variant='striped' colorScheme='gray'>
                             <Thead>

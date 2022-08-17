@@ -43,6 +43,7 @@ const HomePage = () => {
     const handleAddressSubmit = async (e) => {
         setAddress(e.target.parentElement.parentElement.children[1].value);
         setRadius(e.target.parentElement.parentElement.children[4].value);
+        await firebaseFunctions.addRecentAddress(address, radius);
         await firebaseFunctions.setAddress(address, radius);
         navigateToStopsNearMe();
     }

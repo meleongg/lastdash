@@ -154,6 +154,22 @@ const firebaseFunctions = (() => {
         }
     }
 
+    const checkStopExistsInFaveStops = async (routeNum, stopNum) => {
+        const faveStops = await getFaveStops();
+        let keys = Object.keys(faveStops);
+
+        for (let i=0; i<keys.length; i++) {
+            let ithRouteNum = faveStops[keys[i]].routeNum;
+            let ithStopNum = faveStops[keys[i]].stopNum;
+
+            if (ithRouteNum === routeNum && ithStopNum === stopNum) {
+                return true;
+            }
+        }
+
+        return false; 
+    }
+
     return { 
         getAddress,
         setAddress,
@@ -165,7 +181,8 @@ const firebaseFunctions = (() => {
         clearRecentRoutes,
         getRecentAddresses,
         addRecentAddress,
-        clearRecentAddresses
+        clearRecentAddresses,
+        checkStopExistsInFaveStops
     }
 
 })();

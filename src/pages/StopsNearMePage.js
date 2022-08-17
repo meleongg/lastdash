@@ -56,6 +56,7 @@ const StopsNearMePage = () => {
         setRadius(e.target.parentElement.parentElement.children[4].value);
         await handleApiCalls(address);
         await firebaseFunctions.setAddress(address, radius);
+        await firebaseFunctions.addRecentAddress(address, radius);
         setIsSubmittedAddress(true);
     }
 
@@ -97,13 +98,12 @@ const StopsNearMePage = () => {
             setIsSubmittedAddress(address !== '');
             
             if (isSubmittedAddress) {
-                console.log('address found');
                 await handleApiCalls(addressInfo.value);
                 setAddress(addressInfo.value);
                 setRadius(addressInfo.radius);
             }
         })();
-    }, []);
+    }, [isSubmittedAddress]);
 
     useEffect(() => {
         if (isSubmittedAddress) {

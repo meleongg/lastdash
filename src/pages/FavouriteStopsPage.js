@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as ReachLink } from 'react-router-dom';
 import { uniqueId } from 'lodash';
 import { 
     VStack,
@@ -11,7 +11,8 @@ import {
     Tr,
     Td,
     Th,
-    Tbody
+    Tbody,
+    Link
 } from '@chakra-ui/react';
 
 import Nav from '../components/Nav';
@@ -44,9 +45,9 @@ const FavouriteStopsPage = () => {
 
                 return (
                     <Tr key={ uniqueId() }>
-                        <Td>{stopInfo.routeNum}</Td>
                         <Td>{stopInfo.stopNum}</Td>
-                        <Td><Link key={uniqueId()} to={'/routes/' + stopInfo.routeNum + '-' + stopInfo.stopNum }>Go</Link></Td>
+                        <Td>{stopInfo.routeNum}</Td>
+                        <Td><Link as={ReachLink} to={'/routes/' + stopInfo.routeNum + '-' + stopInfo.stopNum }>Go</Link></Td>
                         <Td><FontAwesomeIcon className='fave-stop-icons' icon={faTrashCan} id={id} onClick={handleDeleteFaveStop}/></Td>
                     </Tr>
                 );
@@ -57,24 +58,32 @@ const FavouriteStopsPage = () => {
     return (
         <VStack pb='50px' minHeight='100vh' pos='relative'>
             <Nav />
-                <Grid>
-                    <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>Favourite Stops</Heading>
-                    <TableContainer>
-                        <Table variant='striped' colorScheme='gray'>
-                            <Thead>
-                                <Tr>
-                                    <Th>Stop Number</Th>
-                                    <Th>Route</Th>
-                                    <Th>Check Info</Th>
-                                    <Th>Delete Stop</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                { renderStopInfo() }
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
+                { (Object.keys(stops).length === 0) ?
+                    (
+                        <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>No Favourite Stops</Heading>
+                    ) 
+                    :
+                    (
+                        <Grid>
+                            <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>Favourite Stops</Heading>
+                            <TableContainer>
+                                <Table variant='striped' colorScheme='gray'>
+                                    <Thead>
+                                        <Tr>
+                                            <Th>Stop Number</Th>
+                                            <Th>Route</Th>
+                                            <Th>Check Info</Th>
+                                            <Th>Delete Stop</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        { renderStopInfo() }
+                                    </Tbody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    )
+                }
             <Footer />
         </VStack>
     );
