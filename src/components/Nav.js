@@ -21,7 +21,7 @@ const Nav = () => {
     return (
         <HStack w='100%' bg='#005DAA' color='#FFF'>
             <Flex minWidth='max-content' w='100%' alignItems='center' gap='2'>
-                <a href='/'>
+                <a href='/lastdash'>
                     <Box p='4'>
                         <Text fontSize='lg' fontWeight='bold'>
                             LastDash
