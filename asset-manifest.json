@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/lastdash/static/css/main.0a224ceb.css",
-    "main.js": "/lastdash/static/js/main.6250cad6.js",
+    "main.js": "/lastdash/static/js/main.d6a32403.js",
     "static/media/blue-bus.jpeg": "/lastdash/static/media/blue-bus.93e123aacc2f82aa5da8.jpeg",
     "static/media/99-bus.jpeg": "/lastdash/static/media/99-bus.f1d33e3e0b1b8c6cbc3b.jpeg",
     "static/media/vancouver.jpeg": "/lastdash/static/media/vancouver.483a7979c28d069a200f.jpeg",
     "index.html": "/lastdash/index.html",
     "main.0a224ceb.css.map": "/lastdash/static/css/main.0a224ceb.css.map",
-    "main.6250cad6.js.map": "/lastdash/static/js/main.6250cad6.js.map"
+    "main.d6a32403.js.map": "/lastdash/static/js/main.d6a32403.js.map"
   },
   "entrypoints": [
     "static/css/main.0a224ceb.css",
-    "static/js/main.6250cad6.js"
+    "static/js/main.d6a32403.js"
   ]
 }
