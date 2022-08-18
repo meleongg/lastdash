@@ -1,6 +1,6 @@
 {
-  "homepage": "https://meleongg.github.io/lastdash",
   "name": "lastdash",
+  "homepage": "https://meleongg.github.io/lastdash",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

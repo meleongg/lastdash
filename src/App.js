@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme';
@@ -14,15 +14,13 @@ import RecentQueriesPage from './pages/RecentQueriesPage';
 const App = () => {
   return (
     <ChakraProvider theme={theme}>
-      <BrowserRouter>
-          <Routes>
-              <Route path='/' element={<HomePage />}/>
-              <Route path='/stops-near-me' element={<StopsNearMePage />}/>
-              <Route path='/favourite-stops' element={<FavouriteStopsPage />}/>
-              <Route path='/recent-queries' element={<RecentQueriesPage />}/>
-              <Route path='/routes/:id' element={<RoutePage />}/>
-          </Routes>
-      </BrowserRouter>
+        <Routes>
+            <Route path='/' element={<HomePage />}/>
+            <Route path='/stops-near-me' element={<StopsNearMePage />}/>
+            <Route path='/favourite-stops' element={<FavouriteStopsPage />}/>
+            <Route path='/recent-queries' element={<RecentQueriesPage />}/>
+            <Route path='/routes/:id' element={<RoutePage />}/>
+        </Routes>
     </ChakraProvider>
   );
 }
