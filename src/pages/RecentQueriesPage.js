@@ -45,7 +45,6 @@ const RecentQueriesPage = () => {
     }
 
     const handleChangeAddress = async (e) => {
-        console.log('reached');
         const addressRadius = e.target.id.split('-');
         const address = addressRadius[0];
         const radius = addressRadius[1];

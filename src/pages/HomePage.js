@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
     VStack, 
@@ -21,6 +21,9 @@ import firebaseFunctions from '../persistence/services';
 import Vancouver from '../images/vancouver.jpeg';
 import BlueBus from '../images/blue-bus.jpeg';
 import NineNineBus from '../images/99-bus.jpeg';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const HomePage = () => {
     const [address, setAddress] = useState('');
@@ -48,6 +51,15 @@ const HomePage = () => {
         navigateToStopsNearMe();
     }
 
+    useEffect(() => {
+        AOS.init(
+        { duration: 2000,
+            once: false, // whether animation should happen only once - while scrolling down
+            mirror: true, // whether elements should animate out while scrolling past them
+        });
+        AOS.refresh();
+    }, []);
+
     return (
         <VStack spacing='0' pb='50px' minHeight='100vh' pos='relative'>
             <Nav />
@@ -59,8 +71,8 @@ const HomePage = () => {
                     opacity='60%'
                     w='100%'
                 />
-                <Grid className='center-in-image' position='absolute' top='50%' left='50%' color='#FFF' gap={14}>
-                    <Heading as='h1' fontSize='5rem'>
+                <Grid className='center-in-image' position='absolute' top='50%' left='50%' color='#FFF' gap={['10px', '20px', '30px', '40px', '50px']}>
+                    <Heading className='hero-heading' as='h1' fontSize={['1rem', '1.5rem', '3rem', '4rem', '5rem']}>
                         Perfect for last-minute dashers
                     </Heading>
                     <FormControl>
@@ -80,26 +92,28 @@ const HomePage = () => {
                 </Grid>
             </Box>
             <VStack pt={10} pb={10} spacing='100px'>
-                <Grid templateColumns='1fr 1.5fr' gap={14} justifyContent='center' alignItems='center' w='90%'>
+                <Grid templateColumns='1fr 1.25fr' gap={14} justifyContent='center' alignItems='center' w='90%'>
                     <Image 
                         src={BlueBus}
                         objectFit='cover'
                         alt='Picture of multiple blue Vancouver transit buses'
                         borderRadius="25%"
+                        data-aos="fade-right"
                     />
-                    <Heading as='h2' fontSize='1.5rem' align='center'>
-                        Get real-time bus stop information
+                    <Heading as='h2' fontSize='1.5rem' align='center' data-aos="fade-left">
+                        Get real-time bus information at stops near you
                     </Heading>
                 </Grid>
                 <Grid templateColumns='1.5fr 1fr' gap={14} justifyContent='center' alignItems='center' w='90%'>
-                    <Heading as='h2' fontSize='1.5rem' align='center'>
-                        Check when your favourite buses arrive
+                    <Heading as='h2' fontSize='1.5rem' align='center' data-aos="fade-right">
+                        Check when buses arrive at your favourite stops
                     </Heading>
                     <Image 
                         src={NineNineBus}
                         objectFit='cover'
                         alt='Picture of the Vancouver 99 transit bus'
                         borderRadius="25%"
+                        data-aos="fade-left"
                     />
                 </Grid>
             </VStack>
