@@ -15,7 +15,7 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
         <Routes>
-            <Route path='/' element={<HomePage />}/>
+            <Route path='/lastdash' element={<HomePage />}/>
             <Route path='/stops-near-me' element={<StopsNearMePage />}/>
             <Route path='/favourite-stops' element={<FavouriteStopsPage />}/>
             <Route path='/recent-queries' element={<RecentQueriesPage />}/>
