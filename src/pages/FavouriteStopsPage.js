@@ -26,7 +26,9 @@ const FavouriteStopsPage = () => {
     const [stops, setStops] = useState({});
 
     const handleDeleteFaveStop = async (e) => {
-        await firebaseFunctions.removeFaveStop(e.target.id);
+        await firebaseFunctions.removeFaveStop(e.target.parentElement.id);
+        const storedStops = await firebaseFunctions.getFaveStops();
+        setStops(storedStops);
     }
 
     useEffect(() => {
@@ -34,20 +36,18 @@ const FavouriteStopsPage = () => {
             const stops = await firebaseFunctions.getFaveStops();
             setStops(stops);
         })();
-    }, [stops]);
+    }, []);
 
     const renderStopInfo = () => {
         const ids = Object.keys(stops);
 
         return (
             ids.map((id) => {
-                const stopInfo = stops[id];
-
                 return (
                     <Tr key={ uniqueId() }>
-                        <Td>{stopInfo.stopNum}</Td>
-                        <Td>{stopInfo.routeNum}</Td>
-                        <Td><Link as={ReachLink} to={'/routes/' + stopInfo.routeNum + '-' + stopInfo.stopNum }>Go</Link></Td>
+                        <Td>{stops[id].stopNum}</Td>
+                        <Td>{stops[id].routeNum}</Td>
+                        <Td><Link as={ReachLink} to={'/routes/' + stops[id].routeNum + '-' + stops[id].stopNum }>Go</Link></Td>
                         <Td><FontAwesomeIcon className='fave-stop-icons' icon={faTrashCan} id={id} onClick={handleDeleteFaveStop}/></Td>
                     </Tr>
                 );

@@ -38,10 +38,14 @@ const RecentQueriesPage = () => {
 
     const handleClearAllAddresses = async (e) => {
         await firebaseFunctions.clearRecentAddresses();
+        const storedAddresses = await firebaseFunctions.getRecentAddresses();
+        setAddresses(storedAddresses);
     }
     
-    const handleClearAllRoutes = async (e) => {
+    const handleClearAllStops = async (e) => {
         await firebaseFunctions.clearRecentRoutes();
+        const storedRoutes = await firebaseFunctions.getRecentRoutes();
+        setRoutes(storedRoutes);
     }
 
     const handleChangeAddress = async (e) => {
@@ -97,7 +101,7 @@ const RecentQueriesPage = () => {
             setRoutes(storedRoutes);
             setAddresses(storedAddresses);
         })();
-    }, [routes, addresses]);
+    }, []);
     
     return (
         <VStack pb='50px' minHeight='100vh' pos='relative'>
@@ -112,7 +116,7 @@ const RecentQueriesPage = () => {
                             <AccordionIcon />
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel pb={4}>
+                    <AccordionPanel pb={4} id='addresses-panel'>
                     { (Object.keys(addresses).length === 0) ? 
                         (
                             <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>No Recent Addresses</Heading>
@@ -161,9 +165,9 @@ const RecentQueriesPage = () => {
                         : 
                         (
                             <Grid>
-                                <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>Recent Routes</Heading>
-                                <Button onClick={handleClearAllRoutes} className='clear-button' size='sm' colorScheme='gray' width='150px'>
-                                    Clear Routes
+                                <Heading as='h1' fontSize='1.5rem' align='center' pt='20px' pb='20px'>Recent Stops</Heading>
+                                <Button onClick={handleClearAllStops} className='clear-button' size='sm' colorScheme='gray' width='150px'>
+                                    Clear Stops
                                 </Button>
                                 <TableContainer>
                                     <Table variant='striped' colorScheme='gray'>

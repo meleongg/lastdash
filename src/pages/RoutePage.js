@@ -61,12 +61,17 @@ const RoutePage = () => {
 
     const handleAddFaveStopClick = async (e) => {
         await firebaseFunctions.addFaveStop(routeNum, stopNum);
+        setIsStopExistInFaves(true);
     }
     
     useEffect(() => {
         // GET request for Transit API for the next bus time data
         (async () => {
-            await firebaseFunctions.addRecentRoute(routeNum, stopNum);
+            let res = await firebaseFunctions.checkStopExistsInRecentStops(routeNum, stopNum);
+            if (!res) {
+                await firebaseFunctions.addRecentRoute(routeNum, stopNum);
+            }
+
             let data = await apiServices.getStopTimes(routeNum, stopNum);
             let tempTimes = data[0].Schedules;
             let seenDestinations = [];

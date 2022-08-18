@@ -169,6 +169,38 @@ const firebaseFunctions = (() => {
 
         return false; 
     }
+    
+    const checkStopExistsInRecentStops = async (routeNum, stopNum) => {
+        const routes = await getRecentRoutes();
+        let keys = Object.keys(routes);
+
+        for (let i=0; i<keys.length; i++) {
+            let ithRouteNum = routes[keys[i]].routeNum;
+            let ithStopNum = routes[keys[i]].stopNum;
+
+            if (ithRouteNum === routeNum && ithStopNum === stopNum) {
+                return true;
+            }
+        }
+
+        return false; 
+    }
+    
+    const checkAddressExistsInRecentAddresses = async (address, radius) => {
+        const addresses = await getRecentAddresses();
+        let keys = Object.keys(addresses);
+
+        for (let i=0; i<keys.length; i++) {
+            let ithAddress = addresses[keys[i]].routeNum;
+            let ithRadius = addresses[keys[i]].stopNum;
+
+            if (ithAddress === address && ithRadius === radius) {
+                return true;
+            }
+        }
+
+        return false; 
+    }
 
     return { 
         getAddress,
@@ -182,7 +214,9 @@ const firebaseFunctions = (() => {
         getRecentAddresses,
         addRecentAddress,
         clearRecentAddresses,
-        checkStopExistsInFaveStops
+        checkStopExistsInFaveStops,
+        checkStopExistsInRecentStops,
+        checkAddressExistsInRecentAddresses
     }
 
 })();

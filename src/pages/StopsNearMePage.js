@@ -56,7 +56,13 @@ const StopsNearMePage = () => {
         setRadius(e.target.parentElement.parentElement.children[4].value);
         await handleApiCalls(address);
         await firebaseFunctions.setAddress(address, radius);
-        await firebaseFunctions.addRecentAddress(address, radius);
+
+        let res = await firebaseFunctions.checkAddressExistsInRecentAddresses(address, radius);
+        if (!res) {
+            await firebaseFunctions.addRecentAddress(address, radius);
+        }
+        
+
         setIsSubmittedAddress(true);
     }
 
