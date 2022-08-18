@@ -13,3 +13,7 @@
 #add-to-fave-stop-icon {
     padding-left: 8px;
 }
+
+.aos-grid {
+    overflow-x: hidden;
+}
