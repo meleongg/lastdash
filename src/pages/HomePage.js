@@ -89,11 +89,10 @@ const HomePage = () => {
                     </FormControl>
                 </Grid>
             </Box>
-            <VStack pt={10} pb={10} spacing='100px'>
-                <Grid templateColumns='1fr 1.25fr' gap='40px' justifyContent='center' alignItems='center' w='90%'>
+            <VStack pt='20px' pb='20px' spacing={['40px', '60px', '80px', '100px', '100px']}>
+                <Grid templateColumns='1fr 1.25fr' gap={['20px', '40px', '40px', '40px', '40px']} justifyContent='center' alignItems='center' minWidth='60%' maxWidth='90%'>
                     <Image 
                         src={BlueBus}
-                        objectFit='cover'
                         alt='Picture of multiple blue Vancouver transit buses'
                         borderRadius="25%"
                     />
@@ -101,13 +100,12 @@ const HomePage = () => {
                         Get real-time bus information at stops near you
                     </Heading>
                 </Grid>
-                <Grid templateColumns='1.5fr 1fr' gap='40px' justifyContent='center' alignItems='center' w='90%'>
+                <Grid templateColumns='1.25fr 1fr' gap={['20px', '40px', '40px', '40px', '40px']} justifyContent='center' alignItems='center' minWidth='60%' maxWidth='90%'>
                     <Heading as='h2' fontSize={['1rem', '1.5rem', '1.5rem', '1.5rem', '1.5rem']} align='center'>
                         Check when buses arrive at your favourite stops
                     </Heading>
                     <Image 
                         src={NineNineBus}
-                        objectFit='cover'
                         alt='Picture of the Vancouver 99 transit bus'
                         borderRadius="25%"
                     />
