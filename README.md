@@ -19,8 +19,7 @@ Try it out: https://meleongg.github.io/lastdash/
 - Using React with Firebase Cloud Firestore
 - Using React with the Chakra UI Component Library 
 - React Router Library for static & dynamic routing 
-- Integrating API calls using React Hooks (useEffect, useState) (Position Stack API and Translink API)
-- Using the Automate on Scroll (AOS) library
+- Integrating API calls using React Hooks (useEffect, useState) (Geoapify API and Translink API)
 
 ### Figma Prototype
 [Prototype Link](https://www.figma.com/file/hELGqOxS45xCot931ycWt5/LastDash?node-id=0%3A1)
