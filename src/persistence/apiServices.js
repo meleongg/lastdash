@@ -9,13 +9,13 @@ const apiServices = (() => {
             'Accept': 'application/JSON',
         },
     }
-
+    
     const getGeoCode = async (address) => {
         try {
-            const geocodeResponse = await fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOCODE_API_KEY}&query=${address}`, fetchGeocodeParams);
+            const geocodeResponse = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${process.env.REACT_APP_GEOCODE_API_KEY}`, fetchGeocodeParams);
             const geocodeResponseData = await geocodeResponse.json();
-            const lat = geocodeResponseData.data[0].latitude;
-            const long = geocodeResponseData.data[0].longitude;
+            const lat = geocodeResponseData.features[0].geometry.coordinates[1];
+            const long = geocodeResponseData.features[0].geometry.coordinates[0];
             return [lat, long];
         } catch (e) {
             console.log('Error getting data', e);

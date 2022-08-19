@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
     VStack, 
+    HStack,
     FormControl,
     FormLabel,
     Input,
@@ -90,17 +91,19 @@ const HomePage = () => {
                 </Grid>
             </Box>
             <VStack pt='20px' pb='20px' spacing={['40px', '60px', '80px', '100px', '100px']}>
-                <Grid templateColumns='1fr 1.25fr' gap={['20px', '40px', '40px', '40px', '40px']} justifyContent='center' alignItems='center' minWidth='60%' maxWidth='90%'>
-                    <Image 
+                <HStack spacing={['20px', '40px', '40px', '40px', '40px']} minWidth='60%' maxWidth='90%' justifyContent='center' alignItems='center'>
+                    <Image
                         src={BlueBus}
                         alt='Picture of multiple blue Vancouver transit buses'
                         borderRadius="25%"
+                        objectFit="cover"
+                        width='40%'
                     />
                     <Heading as='h2' fontSize={['1rem', '1.5rem', '1.5rem', '1.5rem', '1.5rem']} align='center'>
                         Get real-time bus information at stops near you
                     </Heading>
-                </Grid>
-                <Grid templateColumns='1.25fr 1fr' gap={['20px', '40px', '40px', '40px', '40px']} justifyContent='center' alignItems='center' minWidth='60%' maxWidth='90%'>
+                </HStack>
+                <HStack spacing={['20px', '40px', '40px', '40px', '40px']} minWidth='60%' maxWidth='90%' justifyContent='center' alignItems='center'>
                     <Heading as='h2' fontSize={['1rem', '1.5rem', '1.5rem', '1.5rem', '1.5rem']} align='center'>
                         Check when buses arrive at your favourite stops
                     </Heading>
@@ -108,8 +111,10 @@ const HomePage = () => {
                         src={NineNineBus}
                         alt='Picture of the Vancouver 99 transit bus'
                         borderRadius="25%"
+                        objectFit="cover"
+                        width='40%'
                     />
-                </Grid>
+                </HStack>
             </VStack>
             <Footer />
         </VStack>
