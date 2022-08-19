@@ -2,6 +2,15 @@
 ## Purpose
 LastDash is a bus-tracking web app that allows users to enter their current address and receive information about nearby bus routes and stops in the Lower Mainland, British Columbia. Users also have the ability to add specific routes and their bus stop to a "Favourite Stops" page. All previously searched addresses and viewed bus stops can be accessed via the "Recent Queries" Page. 
 
+Try it out: https://meleongg.github.io/lastdash/
+### App Image Previews
+<details>
+	<summary>Expand to view Images</summary>
+	
+
+</details>
+<br>
+
 **Technologies**: React, Firebase Cloud Firestore, Chakra UI
 
 ## What I learned
