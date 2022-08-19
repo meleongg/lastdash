@@ -8,6 +8,7 @@ import {
     Heading,
     FormControl,
     FormLabel,
+    FormErrorMessage,
     Input,
     Button,
     FormHelperText,
@@ -35,12 +36,18 @@ const StopsNearMePage = () => {
     const [isSubmittedAddress, setIsSubmittedAddress] = useState(false);
     const [stops, setStops] = useState([]);
 
-    // TODO: remove is submitted from this page, meaning all addresses have to be submitted from the home page, since this allows for page persistence
+    const isAddressError = address === '';
+    const isRadiusError = radius === '';
 
     const handleApiCalls = async (address) => {
         const geoCode = await apiServices.getGeoCode(address);
         const apiStops = await apiServices.getStops(radius, geoCode[0], geoCode[1]);
-        setStops(apiStops);
+
+        if (apiStops.Code === '1011') {
+            alert('Invalid address! Please try again!');
+        } else {
+            setStops(apiStops);
+        }
     }
     
     const handleAddressChange = (e) => {
@@ -52,6 +59,10 @@ const StopsNearMePage = () => {
     }
 
     const handleAddressSubmit = async (e) => {
+        if (isAddressError || isRadiusError) {
+            return null; 
+        }
+
         setAddress(e.target.parentElement.parentElement.children[1].value);
         setRadius(e.target.parentElement.parentElement.children[4].value);
         await handleApiCalls(address);
@@ -135,9 +146,16 @@ const StopsNearMePage = () => {
                         <VStack spacing='10px' align='left'>
                             <FormLabel>Enter your full address</FormLabel>
                             <Input type='address' color='#333' value={address} onChange={handleAddressChange}/>
-                            <FormHelperText color='#333'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
+                            {!isAddressError ? (
+                                <FormHelperText color='#333'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
+                            ) : (
+                                <FormErrorMessage color='#333'>Address is required.</FormErrorMessage>
+                            )}
                             <FormLabel>Enter a radius</FormLabel>
                             <Input type='number' color='#333' value={radius} onChange={handleRadiusChange}></Input>
+                            {isRadiusError &&
+                                <FormErrorMessage color='#333'>Radius is required.</FormErrorMessage>
+                            }
                             <Flex justifyContent='center' alignItems='center' width='100%'>
                                 <Button onClick={handleAddressSubmit} className='go-button' size='sm' bg='#005DAA' width='50px' color='#FFF'>
                                     Go

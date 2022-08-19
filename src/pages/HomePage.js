@@ -6,6 +6,7 @@ import {
     FormControl,
     FormLabel,
     Input,
+    FormErrorMessage,
     FormHelperText,
     Image,
     Box,
@@ -28,6 +29,9 @@ const HomePage = () => {
     const [address, setAddress] = useState('');
     const [radius, setRadius] = useState(500);
 
+    const isAddressError = address === '';
+    const isRadiusError = radius === '';
+
     const navigate = useNavigate();
 
     const navigateToStopsNearMe = () => {
@@ -43,6 +47,10 @@ const HomePage = () => {
     }
 
     const handleAddressSubmit = async (e) => {
+        if (isAddressError || isRadiusError) {
+            return null; 
+        }
+
         setAddress(e.target.parentElement.parentElement.children[1].value);
         setRadius(e.target.parentElement.parentElement.children[4].value);
 
@@ -72,15 +80,24 @@ const HomePage = () => {
                             Perfect for last-minute dashers
                         </Heading>
                     </Hide>
-                    <FormControl>
+                    <FormControl isRequired>
                         <VStack spacing='10px' align='left'>
                             <FormLabel>Enter your full address</FormLabel>
                             <Input type='address' color='#FFF' value={address} onChange={handleAddressChange}/>
                             <Hide breakpoint='(max-width: 500px)'>
-                                <FormHelperText color='#FFF'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
+                                {!isAddressError ? (
+                                    <FormHelperText color='#FFF'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
+                                ) : (
+                                    <FormErrorMessage color='#FFF'>Address is required.</FormErrorMessage>
+                                )}
                             </Hide>
                             <FormLabel>Enter a radius</FormLabel>
                             <Input type='number' color='#FFF' value={radius} onChange={handleRadiusChange}></Input>
+                            <Hide breakpoint='(max-width: 500px)'>
+                                {isRadiusError &&
+                                    <FormErrorMessage color='#FFF'>Radius is required.</FormErrorMessage>
+                                }
+                            </Hide>
                             <Flex justifyContent='center' alignItems='center' width='100%'>
                                 <Button onClick={handleAddressSubmit} className='go-button' size='sm' bg='#005DAA' width='50px'>
                                     Go

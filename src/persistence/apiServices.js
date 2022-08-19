@@ -19,6 +19,7 @@ const apiServices = (() => {
             return [lat, long];
         } catch (e) {
             console.log('Error getting data', e);
+            alert('Sorry, address does not exist! Please try again!');
         }
     }
     
@@ -29,6 +30,7 @@ const apiServices = (() => {
             return stopsResponseData;
         } catch (e) {
             console.log('Error getting data', e);
+            alert('Sorry, no nearby stops! Please try again!');
         }
     }
     
@@ -39,6 +41,7 @@ const apiServices = (() => {
             console.log(busResponseData);
         } catch (e) {
             console.log('Error getting data', e);
+            alert('Sorry, route does not exist! Please try again!');
         }
     }
 
@@ -49,6 +52,7 @@ const apiServices = (() => {
             return json; 
         } catch (e) {
             console.log('Error getting data', e);
+            alert('Sorry, unable to get stop information! Please try again!');
         }
     }
 

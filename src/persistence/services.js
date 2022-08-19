@@ -14,6 +14,7 @@ const firebaseFunctions = (() => {
             return docData;
         } catch (e) {
             console.log('Could not get address data.', e);
+            alert('Sorry, could not get address data! Please try again!');
         }
     }
 
@@ -25,6 +26,7 @@ const firebaseFunctions = (() => {
             });
         } catch (e) {
             console.log('Unable to update address.', e);
+            alert('Sorry, could update address! Please try again!');
         }
     }
 
@@ -40,6 +42,7 @@ const firebaseFunctions = (() => {
             return data; 
         } catch (e) {
             console.log('Unable to get favourite stops.', e);
+            alert('Sorry, unable to get favourite stops data! Please try again!');
         }
     }
 
@@ -53,6 +56,7 @@ const firebaseFunctions = (() => {
             await addDoc(faveStopsRef, data);
         } catch (e) {
             console.log('Unable to add favourite stop.', e);
+            alert('Sorry, unable to add favourite stop! Please try again!');
         }
     }
 
@@ -61,6 +65,7 @@ const firebaseFunctions = (() => {
             await deleteDoc(doc(firestore, 'favouriteStops', id));
         } catch (e) {
             console.log('Unable to delete favourite stop.', e);
+            alert('Sorry, unable to delete favourite stop! Please try again!');
         }
     }
 
@@ -76,6 +81,7 @@ const firebaseFunctions = (() => {
             return data; 
         } catch (e) {
             console.log('Unable to get recent routes.', e);
+            alert('Sorry, unable to get recent routes! Please try again!');
         }
     }
 
@@ -89,6 +95,7 @@ const firebaseFunctions = (() => {
             await addDoc(recentRoutesRef, data);
         } catch (e) {
             console.log('Unable to add recent route.', e);
+            alert('Sorry, unable to add recent route! Please try again!');
         }
     }
 
@@ -106,6 +113,7 @@ const firebaseFunctions = (() => {
             });
         } catch (e) {
             console.log('Unable to clear recent routes.', e);
+            alert('Sorry, unable to clear recent routes! Please try again!');
         }
     }
     
@@ -121,6 +129,7 @@ const firebaseFunctions = (() => {
             return data; 
         } catch (e) {
             console.log('Unable to get recent addresses.', e);
+            alert('Sorry, unable to get recent addresses! Please try again!');
         }
     }
 
@@ -134,6 +143,7 @@ const firebaseFunctions = (() => {
             await addDoc(recentAddressesRef, data);
         } catch (e) {
             console.log('Unable to add recent address.', e);
+            alert('Sorry, unable to add recent address! Please try again!');
         }
     }
 
@@ -151,6 +161,7 @@ const firebaseFunctions = (() => {
             });
         } catch (e) {
             console.log('Unable to clear recent addresses.', e);
+            alert('Sorry, unable to clear recent addresses! Please try again!');
         }
     }
 
