@@ -31,6 +31,7 @@ const HomePage = () => {
 
     const isAddressError = address === '';
     const isRadiusError = radius === '';
+    const isRadiusTooBigError = radius > 2000; 
 
     const navigate = useNavigate();
 
@@ -48,6 +49,11 @@ const HomePage = () => {
 
     const handleAddressSubmit = async (e) => {
         if (isAddressError || isRadiusError) {
+            return null; 
+        }
+
+        if (isRadiusTooBigError) {
+            alert('Radius must be less than 2000!');
             return null; 
         }
 
@@ -88,15 +94,17 @@ const HomePage = () => {
                                 {!isAddressError ? (
                                     <FormHelperText color='#FFF'>Ex. 419 E 24th Ave, Vancouver, BC V5V 2A2</FormHelperText>
                                 ) : (
-                                    <FormErrorMessage color='#FFF'>Address is required.</FormErrorMessage>
+                                    <FormErrorMessage color='#FFF'>Address is required</FormErrorMessage>
                                 )}
                             </Hide>
                             <FormLabel>Enter a radius</FormLabel>
                             <Input type='number' color='#FFF' value={radius} onChange={handleRadiusChange}></Input>
                             <Hide breakpoint='(max-width: 500px)'>
-                                {isRadiusError &&
-                                    <FormErrorMessage color='#FFF'>Radius is required.</FormErrorMessage>
-                                }
+                                {(isRadiusError || isRadiusTooBigError) ? (
+                                    <FormErrorMessage color='#FFF'>Radius under 2000 is required</FormErrorMessage>
+                                ) : (
+                                    <FormHelperText color='#FFF'>Max radius is 2000</FormHelperText>
+                                )}
                             </Hide>
                             <Flex justifyContent='center' alignItems='center' width='100%'>
                                 <Button onClick={handleAddressSubmit} className='go-button' size='sm' bg='#005DAA' width='50px'>

@@ -21,6 +21,7 @@ import {
     TableCaption,
     TableContainer,
     Box,
+    Hide
 } from '@chakra-ui/react';
 
 import { uniqueId } from 'lodash';
@@ -38,6 +39,7 @@ const StopsNearMePage = () => {
 
     const isAddressError = address === '';
     const isRadiusError = radius === '';
+    const isRadiusTooBigError = radius > 2000; 
 
     const handleApiCalls = async (address) => {
         const geoCode = await apiServices.getGeoCode(address);
@@ -45,6 +47,8 @@ const StopsNearMePage = () => {
 
         if (apiStops.Code === '1011') {
             alert('Invalid address! Please try again!');
+        } else if (apiStops.Code === '1012') {
+            alert('Sorry! No nearby stops were found. Try adjusting the radius or address.');
         } else {
             setStops(apiStops);
         }
@@ -60,6 +64,11 @@ const StopsNearMePage = () => {
 
     const handleAddressSubmit = async (e) => {
         if (isAddressError || isRadiusError) {
+            return null; 
+        }
+
+        if (isRadiusTooBigError) {
+            alert('Radius must be less than 2000!');
             return null; 
         }
 
@@ -153,9 +162,13 @@ const StopsNearMePage = () => {
                             )}
                             <FormLabel>Enter a radius</FormLabel>
                             <Input type='number' color='#333' value={radius} onChange={handleRadiusChange}></Input>
-                            {isRadiusError &&
-                                <FormErrorMessage color='#333'>Radius is required.</FormErrorMessage>
-                            }
+                            <Hide breakpoint='(max-width: 500px)'>
+                                {(isRadiusError || isRadiusTooBigError) ? (
+                                    <FormErrorMessage color='#333'>Radius under 2000 is required</FormErrorMessage>
+                                ) : (
+                                    <FormHelperText color='#333'>Max radius is 2000</FormHelperText>
+                                )}
+                            </Hide>
                             <Flex justifyContent='center' alignItems='center' width='100%'>
                                 <Button onClick={handleAddressSubmit} className='go-button' size='sm' bg='#005DAA' width='50px' color='#FFF'>
                                     Go
