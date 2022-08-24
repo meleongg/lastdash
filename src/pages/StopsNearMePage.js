@@ -49,6 +49,14 @@ const StopsNearMePage = () => {
             alert('Invalid address! Please try again!');
         } else if (apiStops.Code === '1012') {
             alert('Sorry! No nearby stops were found. Try adjusting the radius or address.');
+        } else if (apiStops.Code === '1002') {
+            alert('Sorry! No stop number was found.');
+        } else if (apiStops.Code === '1001') {
+            alert('Sorry! Invalid stop number.');
+        } else if (apiStops.Code === '1003' || apiStops.Code === '1004' || apiStops.Code === '1012') {
+            alert('Sorry! There was a problem with getting stop information.');
+        } else if (apiStops.Code === '1015') {
+            alert('Sorry! Invalid route number.');
         } else {
             setStops(apiStops);
         }
